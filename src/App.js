@@ -5,7 +5,7 @@ const App = () => {
   const boardSize = 360;
   const defalutTime = 15;
   const maxStage = 100;
-  const degreeOfDifficulty = 1;
+  const degreeOfDifficulty = 2;
 
   const [tileSize, setTileSize] = useState(boardSize / 2 - 4);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -66,23 +66,29 @@ const App = () => {
       const gap = (limitValue - value) * step;
       const beforeColor = color.replace("#", "0x");
       if (parseInt(beforeColor) - gap < minRgbValue) {
-        similarColor = "#" + (beforeColor + gap).toString(16);
+        similarColor = (beforeColor + gap).toString(16);
       } else {
-        similarColor = "#" + (beforeColor - gap).toString(16);
+        similarColor = (beforeColor - gap).toString(16);
       }
+      similarColor = numToRgb(similarColor);
       return similarColor;
     }
   };
 
   const getRandomColor = () => {
     const preColor = Math.round(Math.random() * 0xffffff).toString(16);
-    let color = "";
-    if (preColor.length < 6) {
-      color = "#" + "0".repeat(6 - preColor.length) + preColor;
-    } else {
-      color = "#" + preColor;
-    }
+    const color = numToRgb(preColor);
     return color;
+  };
+
+  const numToRgb = (num) => {
+    let rgbValue = "";
+    if (num.length < 6) {
+      rgbValue = "#" + "0".repeat(6 - num.length) + num;
+    } else {
+      rgbValue = "#" + num;
+    }
+    return rgbValue;
   };
 
   const getRandomValue = (maxValue) => {
